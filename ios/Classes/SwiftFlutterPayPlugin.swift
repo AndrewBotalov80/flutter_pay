@@ -48,6 +48,7 @@ public class SwiftFlutterPayPlugin: NSObject, FlutterPlugin {
                 let currency = params["currencyCode"] as? String,
                 let countryCode = params["countryCode"] as? String,
                 let allowedPaymentNetworks = params["allowedPaymentNetworks"] as? [String],
+                let shopToken = params["shopToken"] as? String,
                 let items = params["items"] as? [[String: String]] else {
                     result(FlutterError(code: "invalidParameters", message: "Invalid parameters", details: nil))
                     return
@@ -72,6 +73,7 @@ public class SwiftFlutterPayPlugin: NSObject, FlutterPlugin {
         paymentRequest.countryCode = countryCode
         paymentRequest.currencyCode = currency
         paymentRequest.supportedNetworks = paymentNetworks
+        paymentRequest.applicationData = shopToken.data(using: .utf8)
         
         let paymentController = PKPaymentAuthorizationController(paymentRequest: paymentRequest)
         paymentController.delegate = self

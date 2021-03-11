@@ -45,6 +45,8 @@ class FlutterPay {
   /// See [PaymentNetwork].
   /// * [paymentItems] - affects only Apple Pay. See [PaymentItem]
   /// * [merchantName] - affects only Google Pay.
+  /// * [shopToken] - token for applicationData (iOS)
+  /// ну вот требуется и что вы мне сделаете я в другом городе
   /// Mercant name which will be displayed to customer.
   Future<String> requestPayment({
     GoogleParameters googleParameters,
@@ -54,6 +56,7 @@ class FlutterPay {
     bool emailRequired = false,
     String currencyCode,
     String countryCode,
+    @required String shopToken,
   }) async {
     var items = paymentItems.map((item) => item.toJson()).toList();
     var params = <String, dynamic>{
@@ -63,6 +66,7 @@ class FlutterPay {
           allowedPaymentNetworks.map((network) => network.getName).toList(),
       "items": items,
       "emailRequired": emailRequired,
+      "shopToken": shopToken,
     };
 
     if (Platform.isAndroid && googleParameters != null) {
