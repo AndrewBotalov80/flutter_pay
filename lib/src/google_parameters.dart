@@ -3,13 +3,13 @@ part of flutter_pay;
 // https://developers.google.com/pay/api/web/reference/request-objects#gateway
 class GoogleParameters {
   final String gatewayName;
-  final String? gatewayMerchantId;
-  final Map<String, dynamic>? gatewayArgs;
-  final String? merchantId;
-  final String? merchantName;
+  final String gatewayMerchantId;
+  final Map<String, dynamic> gatewayArgs;
+  final String merchantId;
+  final String merchantName;
 
   GoogleParameters({
-    required this.gatewayName,
+    @required this.gatewayName,
     this.gatewayMerchantId,
     this.gatewayArgs,
     this.merchantId,
@@ -29,7 +29,7 @@ class GoogleParameters {
     if (gatewayMerchantId != null) {
       map.addAll({'gatewayMerchantId': gatewayMerchantId});
     } else {
-      map.addAll(gatewayArgs as Map<String, String?>);
+      map.addAll(gatewayArgs);
     }
 
     return map;

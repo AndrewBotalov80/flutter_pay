@@ -6,7 +6,7 @@ class FlutterPay {
   /// Switch Google Pay [environment]
   ///
   /// See [PaymentEnvironment]
-  void setEnvironment({PaymentEnvironment? environment}) {
+  void setEnvironment({PaymentEnvironment environment}) {
     var params = <String, bool>{
       "isTestEnvironment": environment == PaymentEnvironment.Test,
     };
@@ -14,7 +14,7 @@ class FlutterPay {
   }
 
   /// Returns `true` if Apple/ Google Pay is available on device
-  Future<bool?> canMakePayments() async {
+  Future<bool> canMakePayments() async {
     final canMakePayments = await _channel.invokeMethod('canMakePayments');
     return canMakePayments;
   }
@@ -23,8 +23,8 @@ class FlutterPay {
   ///
   /// You can set allowed payment networks in [allowedPaymentNetworks] parameter.
   /// See [PaymentNetwork]
-  Future<bool?> canMakePaymentsWithActiveCard({
-    required List<PaymentNetwork> allowedPaymentNetworks,
+  Future<bool> canMakePaymentsWithActiveCard({
+    List<PaymentNetwork> allowedPaymentNetworks,
   }) async {
     var paymentNetworks =
         allowedPaymentNetworks.map((network) => network.getName).toList();
@@ -48,15 +48,15 @@ class FlutterPay {
   /// * [shopToken] - token for applicationData (iOS)
   /// ну вот требуется и что вы мне сделаете я в другом городе
   /// Mercant name which will be displayed to customer.
-  Future<String?> requestPayment({
-    GoogleParameters? googleParameters,
-    AppleParameters? appleParameters,
+  Future<String> requestPayment({
+    GoogleParameters googleParameters,
+    AppleParameters appleParameters,
     List<PaymentNetwork> allowedPaymentNetworks = const [],
-    required List<PaymentItem> paymentItems,
+    List<PaymentItem> paymentItems,
     bool emailRequired = false,
-    String? currencyCode,
-    String? countryCode,
-    required String shopToken,
+    String currencyCode,
+    String countryCode,
+    @required String shopToken,
   }) async {
     var items = paymentItems.map((item) => item.toJson()).toList();
     var params = <String, dynamic>{
