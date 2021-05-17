@@ -4,7 +4,7 @@ class AppleParameters {
   final String merchantIdentifier;
   
   AppleParameters({
-    @required this.merchantIdentifier,
+    required this.merchantIdentifier,
   });
 
   Map<String, dynamic> toMap() {
