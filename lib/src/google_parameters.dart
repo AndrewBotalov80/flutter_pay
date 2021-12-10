@@ -7,29 +7,41 @@ class GoogleParameters {
   final Map<String, dynamic>? gatewayArgs;
   final String? merchantId;
   final String? merchantName;
+  final List<CardAuthMethods> allowedCardAuthMethods;
 
-  GoogleParameters({
-    required this.gatewayName,
-    this.gatewayMerchantId,
-    this.gatewayArgs,
-    this.merchantId,
-    this.merchantName,
-  }) : assert(
+  GoogleParameters(
+      {required this.gatewayName,
+      this.gatewayMerchantId,
+      this.gatewayArgs,
+      this.merchantId,
+      this.merchantName,
+      this.allowedCardAuthMethods = const []})
+      : assert(
           ((gatewayMerchantId != null) ^ (gatewayArgs != null)),
           "You can not use gatewayMerchantId and gatewayArgs at the same time",
         );
 
   Map<String, dynamic> toMap() {
-    var map = {
+    Map<String, dynamic> map = {
       'gatewayName': gatewayName,
-      'merchantId': merchantId,
-      'merchantName': merchantName,
     };
 
+    if (merchantId != null) {
+      map["merchantId"] = merchantId!;
+    }
+
+    if (merchantName != null) {
+      map["merchantName"] = merchantName!;
+    }
+
+    map["allowedAuthMethods"] =
+        allowedCardAuthMethods.map((method) => method.getName).toList();
+
     if (gatewayMerchantId != null) {
-      map.addAll({'gatewayMerchantId': gatewayMerchantId});
-    } else {
-      map.addAll(gatewayArgs as Map<String, String?>);
+      map.addAll({'gatewayMerchantId': gatewayMerchantId!});
+    }
+    if (gatewayArgs != null) {
+      map.addAll(gatewayArgs!);
     }
 
     return map;

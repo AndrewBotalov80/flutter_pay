@@ -9,7 +9,7 @@ class FlutterPayError extends Error {
   @override
   String toString() {
     return '''\n
-Error: $code.
-Description: $description''';
+    Error: $code.
+    Description: $description''';
   }
 }

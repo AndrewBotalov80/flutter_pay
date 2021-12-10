@@ -49,7 +49,8 @@ public class SwiftFlutterPayPlugin: NSObject, FlutterPlugin {
                 let countryCode = params["countryCode"] as? String,
                 let allowedPaymentNetworks = params["allowedPaymentNetworks"] as? [String],
                 let shopToken = params["shopToken"] as? String,
-                let items = params["items"] as? [[String: String]] else {
+                let items = params["items"] as? [[String: String]],
+                let merchantCapabilities = params["merchantCapabilities"] as? [String]? else {
                     result(FlutterError(code: "invalidParameters", message: "Invalid parameters", details: nil))
                     return
         }
@@ -67,9 +68,8 @@ public class SwiftFlutterPayPlugin: NSObject, FlutterPlugin {
         
         let paymentRequest = PKPaymentRequest()
         paymentRequest.paymentSummaryItems = paymentItems
-        
         paymentRequest.merchantIdentifier = merchantID
-        paymentRequest.merchantCapabilities = .capability3DS
+        paymentRequest.merchantCapabilities = MerchantCapabilitiesHelper.decodeCapabilities(merchantCapabilities)
         paymentRequest.countryCode = countryCode
         paymentRequest.currencyCode = currency
         paymentRequest.supportedNetworks = paymentNetworks
